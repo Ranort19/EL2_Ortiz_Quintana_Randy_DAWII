@@ -1,0 +1,32 @@
+### Maven ###
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+### Secretos ###
+.env
+*.env
+
+### Logs ###
+*.log
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### VS Code ###
+.vscode/
+
+### Sistema operativo ###
+.DS_Store
+Thumbs.db
