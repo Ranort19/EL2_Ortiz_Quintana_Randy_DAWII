@@ -1,0 +1,713 @@
+{
+	"info": {
+		"name": "Hospital Vida Salud - T2",
+		"description": "Pruebas funcionales del examen T2. Todas las peticiones pasan por el Gateway (puerto 8080). Ejecutar en orden sobre bases de datos recien creadas con script/hospital.sql. Todos los datos son ficticios.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Registro de pacientes",
+			"item": [
+				{
+					"name": "Registrar paciente 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"90000001\",\n  \"nombres\": \"Ana\",\n  \"apellidos\": \"Prueba Ficticia\",\n  \"fechaNacimiento\": \"1990-05-10\",\n  \"telefono\": \"900000001\",\n  \"correo\": \"ana@correo.test\",\n  \"direccion\": \"Av. Ficticia 123\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Registrar paciente 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"CE\",\n  \"numeroDocumento\": \"900000002\",\n  \"nombres\": \"Luis\",\n  \"apellidos\": \"Demo Ejemplo\",\n  \"fechaNacimiento\": \"1985-11-20\",\n  \"telefono\": \"900000002\",\n  \"correo\": \"luis@correo.test\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Registrar paciente 3 INACTIVO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"PASAPORTE\",\n  \"numeroDocumento\": \"PX0000003\",\n  \"nombres\": \"Rosa\",\n  \"apellidos\": \"Muestra Prueba\",\n  \"fechaNacimiento\": \"2000-01-15\",\n  \"telefono\": \"900000003\",\n  \"correo\": \"rosa@correo.test\",\n  \"estado\": \"INACTIVO\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Paciente duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"90000001\",\n  \"nombres\": \"Ana\",\n  \"apellidos\": \"Prueba Ficticia\",\n  \"fechaNacimiento\": \"1990-05-10\",\n  \"telefono\": \"900000001\",\n  \"correo\": \"ana@correo.test\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Tipo de documento invalido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"XYZ\",\n  \"numeroDocumento\": \"90000009\",\n  \"nombres\": \"Juan\",\n  \"apellidos\": \"Error Ficticio\",\n  \"fechaNacimiento\": \"1995-03-03\",\n  \"telefono\": \"900000009\",\n  \"correo\": \"juan@correo.test\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Consulta y actualizacion de pacientes",
+			"item": [
+				{
+					"name": "Listar pacientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pacientes"
+					}
+				},
+				{
+					"name": "Buscar paciente por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pacientes/1"
+					}
+				},
+				{
+					"name": "Buscar paciente por documento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pacientes/documento/DNI/90000001"
+					}
+				},
+				{
+					"name": "ERROR - Paciente inexistente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pacientes/999"
+					}
+				},
+				{
+					"name": "Actualizar telefono del paciente 1",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes/1",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"90000001\",\n  \"nombres\": \"Ana\",\n  \"apellidos\": \"Prueba Ficticia\",\n  \"fechaNacimiento\": \"1990-05-10\",\n  \"telefono\": \"911111111\",\n  \"correo\": \"ana@correo.test\",\n  \"direccion\": \"Av. Ficticia 123\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Actualizar con documento de otro paciente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pacientes/2",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"90000001\",\n  \"nombres\": \"Luis\",\n  \"apellidos\": \"Demo Ejemplo\",\n  \"fechaNacimiento\": \"1985-11-20\",\n  \"telefono\": \"900000002\",\n  \"correo\": \"luis@correo.test\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Registro de citas (WebClient a pacientes)",
+			"item": [
+				{
+					"name": "Registrar cita 1 (paciente 1)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"especialidad\": \"PEDIATRIA\",\n  \"fechaHora\": \"2027-03-15T09:00:00\",\n  \"profesionalCodigo\": \"MED-001\",\n  \"motivo\": \"Control administrativo\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Registrar cita 2 (paciente 2)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 2,\n  \"especialidad\": \"CARDIOLOGIA\",\n  \"fechaHora\": \"2027-03-15T10:00:00\",\n  \"profesionalCodigo\": \"MED-002\",\n  \"motivo\": \"Evaluacion programada\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Registrar cita 3 (paciente 1)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"especialidad\": \"MEDICINA_GENERAL\",\n  \"fechaHora\": \"2027-03-16T11:00:00\",\n  \"profesionalCodigo\": \"MED-003\",\n  \"motivo\": \"Consulta de seguimiento\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Profesional con agenda ocupada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 2,\n  \"especialidad\": \"PEDIATRIA\",\n  \"fechaHora\": \"2027-03-15T09:00:00\",\n  \"profesionalCodigo\": \"MED-001\",\n  \"motivo\": \"Control administrativo\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Paciente inexistente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 999,\n  \"especialidad\": \"PEDIATRIA\",\n  \"fechaHora\": \"2027-03-18T09:00:00\",\n  \"profesionalCodigo\": \"MED-001\",\n  \"motivo\": \"Control administrativo\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Paciente INACTIVO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 3,\n  \"especialidad\": \"PEDIATRIA\",\n  \"fechaHora\": \"2027-03-18T09:00:00\",\n  \"profesionalCodigo\": \"MED-001\",\n  \"motivo\": \"Control administrativo\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Fecha pasada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"especialidad\": \"PEDIATRIA\",\n  \"fechaHora\": \"2020-01-10T09:00:00\",\n  \"profesionalCodigo\": \"MED-001\",\n  \"motivo\": \"Control administrativo\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Listar citas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/citas"
+					}
+				},
+				{
+					"name": "Buscar cita por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/citas/1"
+					}
+				},
+				{
+					"name": "Citas del paciente 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/citas/paciente/1"
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Estados de citas y eventos RabbitMQ",
+			"item": [
+				{
+					"name": "Confirmar cita 1 (evento CitaConfirmada)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/1/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"CONFIRMADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Reprogramar cita 2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/2/reprogramar",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fechaHora\": \"2027-03-17T10:00:00\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Cancelar cita 2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/2/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"CANCELADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Confirmar cita cancelada",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/2/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"CONFIRMADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Reprogramar cita cancelada",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/2/reprogramar",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fechaHora\": \"2027-03-19T10:00:00\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Estado invalido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/citas/1/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"TERMINADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Ver notificaciones recibidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/notificaciones"
+					}
+				},
+				{
+					"name": "Ver auditoria de la cita 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/auditoria/recurso/2"
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Atenciones (WebClient a citas)",
+			"item": [
+				{
+					"name": "Registrar atencion de la cita 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citaId\": 1,\n  \"area\": \"CONSULTA_EXTERNA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Verificar cita 1 ATENDIDA",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/citas/1"
+					}
+				},
+				{
+					"name": "ERROR - Atencion duplicada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citaId\": 1,\n  \"area\": \"CONSULTA_EXTERNA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Cita no confirmada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citaId\": 3,\n  \"area\": \"CONSULTA_EXTERNA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Cita inexistente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citaId\": 999,\n  \"area\": \"CONSULTA_EXTERNA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Buscar atencion por cita",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/atenciones/cita/1"
+					}
+				},
+				{
+					"name": "Finalizar atencion 1",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones/1/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"FINALIZADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Anular atencion finalizada",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/atenciones/1/estado",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"ANULADA\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Listar atenciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/atenciones"
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Pagos",
+			"item": [
+				{
+					"name": "Registrar pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pagos",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"concepto\": \"Consulta externa\",\n  \"monto\": 80,\n  \"medioPago\": \"EFECTIVO\",\n  \"numeroOperacion\": \"OP-0001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Monto cero",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pagos",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"concepto\": \"Consulta externa\",\n  \"monto\": 0,\n  \"medioPago\": \"EFECTIVO\",\n  \"numeroOperacion\": \"OP-0002\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Monto negativo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pagos",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"concepto\": \"Consulta externa\",\n  \"monto\": -50,\n  \"medioPago\": \"EFECTIVO\",\n  \"numeroOperacion\": \"OP-0003\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Numero de operacion duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pagos",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 1,\n  \"concepto\": \"Consulta externa\",\n  \"monto\": 80,\n  \"medioPago\": \"TARJETA\",\n  \"numeroOperacion\": \"OP-0001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "ERROR - Paciente inexistente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{gateway}}/api/pagos",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": 999,\n  \"concepto\": \"Consulta externa\",\n  \"monto\": 80,\n  \"medioPago\": \"EFECTIVO\",\n  \"numeroOperacion\": \"OP-0004\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Listar pagos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pagos"
+					}
+				},
+				{
+					"name": "Pagos del paciente 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/pagos/paciente/1"
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Notificaciones y auditoria (RabbitMQ)",
+			"item": [
+				{
+					"name": "Ver notificaciones recibidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/notificaciones"
+					}
+				},
+				{
+					"name": "Historial de la cita 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/auditoria/recurso/1"
+					}
+				},
+				{
+					"name": "Listar auditoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{gateway}}/api/auditoria"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "gateway",
+			"value": "http://localhost:8080"
+		}
+	]
+}
