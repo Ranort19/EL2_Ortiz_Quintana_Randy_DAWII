@@ -1,4 +1,5 @@
 name: Integracion Continua - Hospital Vida Salud
+run-name: Examen T2 - Compilacion y pruebas automatizadas
 
 on:
   push:
