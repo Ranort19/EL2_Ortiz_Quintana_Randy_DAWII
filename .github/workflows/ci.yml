@@ -1,0 +1,35 @@
+name: Integracion Continua - Hospital Vida Salud
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        modulo: [ pacientes, eureka-server, gateway, citas, atenciones, notificaciones, auditoria, pagos ]
+    defaults:
+      run:
+        working-directory: ${{ matrix.modulo }}
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: ${{ matrix.modulo }}/pom.xml
+
+      - name: Dar permiso de ejecucion a Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Compilar y ejecutar pruebas
+        run: ./mvnw --batch-mode verify
