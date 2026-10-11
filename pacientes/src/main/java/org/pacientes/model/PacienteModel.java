@@ -35,7 +35,7 @@ public class PacienteModel {
 		paciente.setFechaRegistro(LocalDate.now());
 
 		return pacienteRepository.findByTipoDocumentoAndNumeroDocumento(paciente.getTipoDocumento(), paciente.getNumeroDocumento())
-				.flatMap(existe -> Mono.<Paciente>error(new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				.flatMap(existe -> Mono.<Paciente>error(new ResponseStatusException(HttpStatus.CONFLICT,
 						"Ya existe un paciente con documento " + paciente.getTipoDocumento() + " " + paciente.getNumeroDocumento())))
 				.switchIfEmpty(Mono.defer(() -> pacienteRepository.save(paciente)));
 	}
