@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 665" width="1240" height="665" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="fHttp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#37474f"/></marker>
+    <marker id="fSync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker>
+    <marker id="fEvt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e65100"/></marker>
+    <marker id="fEur" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6a1b9a"/></marker>
+  </defs>
+
+  <rect width="1240" height="665" fill="#ffffff"/>
+  <text x="620" y="16" text-anchor="middle" font-size="13" fill="#607d8b">Hospital Vida Salud · Arquitectura de microservicios (T2)</text>
+
+  <!-- Cliente -->
+  <rect x="470" y="26" width="300" height="44" rx="8" fill="#f5f5f5" stroke="#455a64" stroke-width="1.5"/>
+  <text x="620" y="53" text-anchor="middle" font-size="15" font-weight="600" fill="#263238">Cliente · Postman / personal autorizado</text>
+  <line x1="620" y1="70" x2="620" y2="98" stroke="#37474f" stroke-width="2" marker-end="url(#fHttp)"/>
+
+  <!-- Gateway -->
+  <rect x="420" y="100" width="400" height="62" rx="8" fill="#dbe8f5" stroke="#1f4e79" stroke-width="2"/>
+  <text x="620" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#1f4e79">Spring Cloud Gateway · :8080</text>
+  <text x="620" y="148" text-anchor="middle" font-size="12.5" fill="#1f4e79">/api/** → lb://servicio · StripPrefix=1</text>
+
+  <!-- Eureka -->
+  <rect x="950" y="100" width="250" height="62" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+  <text x="1075" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#6a1b9a">Eureka Server · :8761</text>
+  <text x="1075" y="148" text-anchor="middle" font-size="12.5" fill="#6a1b9a">registro y descubrimiento</text>
+  <line x1="822" y1="131" x2="948" y2="131" stroke="#6a1b9a" stroke-width="1.6" stroke-dasharray="4 3" marker-start="url(#fEur)" marker-end="url(#fEur)"/>
+  <text x="885" y="124" text-anchor="middle" font-size="11" fill="#6a1b9a">consulta</text>
+  <line x1="1075" y1="162" x2="1075" y2="204" stroke="#6a1b9a" stroke-width="1.6" stroke-dasharray="4 3" marker-start="url(#fEur)"/>
+  <text x="1083" y="188" font-size="11" fill="#6a1b9a">los 7 servicios se registran</text>
+
+  <!-- Contenedor de microservicios -->
+  <rect x="20" y="206" width="1200" height="350" rx="10" fill="none" stroke="#90a4ae" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="34" y="226" font-size="12.5" fill="#546e7a">Microservicios (Spring WebFlux · Mono / Flux)</text>
+  <line x1="620" y1="162" x2="620" y2="204" stroke="#37474f" stroke-width="2" marker-end="url(#fHttp)"/>
+  <text x="628" y="188" font-size="11" fill="#37474f">enruta según la ruta</text>
+
+  <!-- Llamadas síncronas (WebClient) -->
+  <path d="M290,284 V262 H170 V282" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#fSync)"/>
+  <text x="230" y="257" text-anchor="middle" font-size="11" fill="#1565c0">WebClient</text>
+  <path d="M490,284 V262 H370 V282" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#fSync)"/>
+  <text x="430" y="257" text-anchor="middle" font-size="11" fill="#1565c0">WebClient</text>
+  <path d="M690,284 V240 H90 V282" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#fSync)"/>
+  <text x="560" y="235" text-anchor="middle" font-size="11" fill="#1565c0">WebClient (pagos valida paciente)</text>
+
+  <!-- Servicios -->
+  <g font-size="15" font-weight="700" text-anchor="middle">
+    <rect x="40" y="284" width="170" height="66" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+    <text x="125" y="311" fill="#1b5e20">pacientes</text>
+    <rect x="240" y="284" width="170" height="66" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+    <text x="325" y="311" fill="#1b5e20">citas</text>
+    <rect x="440" y="284" width="170" height="66" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+    <text x="525" y="311" fill="#1b5e20">atenciones</text>
+    <rect x="640" y="284" width="170" height="66" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+    <text x="725" y="311" fill="#1b5e20">pagos</text>
+    <rect x="840" y="284" width="170" height="66" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+    <text x="925" y="311" fill="#bf360c">notificaciones</text>
+    <rect x="1030" y="284" width="170" height="66" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+    <text x="1115" y="311" fill="#bf360c">auditoria</text>
+  </g>
+  <g font-size="12" text-anchor="middle" fill="#37474f">
+    <text x="125" y="334">:8081 · registro, consulta</text>
+    <text x="325" y="334">:8082 · agenda y estados</text>
+    <text x="525" y="334">:8083 · atención simulada</text>
+    <text x="725" y="334">:8086 · pagos simulados</text>
+    <text x="925" y="334">:8084 · avisos (log)</text>
+    <text x="1115" y="334">:8085 · trazabilidad</text>
+  </g>
+
+  <!-- Bases de datos (R2DBC) -->
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(125,0)">
+      <line x1="0" y1="350" x2="0" y2="372" stroke="#3949ab" stroke-width="1.5"/>
+      <path d="M-55,380 v40 a55,9 0 0 0 110,0 v-40" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <ellipse cx="0" cy="380" rx="55" ry="9" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <text x="0" y="408" fill="#283593">bd_pacientes</text>
+    </g>
+    <g transform="translate(325,0)">
+      <line x1="0" y1="350" x2="0" y2="372" stroke="#3949ab" stroke-width="1.5"/>
+      <path d="M-55,380 v40 a55,9 0 0 0 110,0 v-40" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <ellipse cx="0" cy="380" rx="55" ry="9" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <text x="0" y="408" fill="#283593">bd_citas</text>
+    </g>
+    <g transform="translate(525,0)">
+      <line x1="0" y1="350" x2="0" y2="372" stroke="#3949ab" stroke-width="1.5"/>
+      <path d="M-55,380 v40 a55,9 0 0 0 110,0 v-40" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <ellipse cx="0" cy="380" rx="55" ry="9" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <text x="0" y="408" fill="#283593">bd_atenciones</text>
+    </g>
+    <g transform="translate(725,0)">
+      <line x1="0" y1="350" x2="0" y2="372" stroke="#3949ab" stroke-width="1.5"/>
+      <path d="M-55,380 v40 a55,9 0 0 0 110,0 v-40" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <ellipse cx="0" cy="380" rx="55" ry="9" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <text x="0" y="408" fill="#283593">bd_pagos</text>
+    </g>
+    <g transform="translate(1125,0)">
+      <line x1="0" y1="350" x2="0" y2="372" stroke="#3949ab" stroke-width="1.5"/>
+      <path d="M-55,380 v40 a55,9 0 0 0 110,0 v-40" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <ellipse cx="0" cy="380" rx="55" ry="9" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+      <text x="0" y="408" fill="#283593">bd_auditoria</text>
+    </g>
+    <text x="945" y="390" fill="#bf360c">en memoria</text>
+    <text x="945" y="406" fill="#bf360c">(sin base de datos)</text>
+  </g>
+
+  <!-- RabbitMQ -->
+  <rect x="240" y="468" width="960" height="70" rx="8" fill="#fff0e6" stroke="#e65100" stroke-width="2"/>
+  <text x="262" y="495" font-size="15" font-weight="700" fill="#bf360c">RabbitMQ</text>
+  <text x="262" y="518" font-size="12.5" fill="#bf360c">exchange HOSPITAL_INTERCAMBIO (direct) · routing key CITA_KEY</text>
+  <rect x="845" y="487" width="160" height="32" rx="16" fill="#ffffff" stroke="#e65100" stroke-width="1.5"/>
+  <text x="925" y="508" text-anchor="middle" font-size="12" fill="#bf360c">NOTIFICACIONES_COLA</text>
+  <rect x="1032" y="487" width="160" height="32" rx="16" fill="#ffffff" stroke="#e65100" stroke-width="1.5"/>
+  <text x="1112" y="508" text-anchor="middle" font-size="12" fill="#bf360c">AUDITORIA_COLA</text>
+
+  <!-- Publicación y consumo -->
+  <line x1="252" y1="350" x2="252" y2="466" stroke="#e65100" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#fEvt)"/>
+  <text x="196" y="452" text-anchor="end" font-size="11.5" fill="#e65100">publica CitaEventoDto (JSON)</text>
+  <line x1="196" y1="448" x2="248" y2="448" stroke="#e65100" stroke-width="1"/>
+  <line x1="862" y1="486" x2="862" y2="352" stroke="#e65100" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#fEvt)"/>
+  <text x="869" y="456" font-size="11.5" fill="#e65100">consume</text>
+  <line x1="1048" y1="486" x2="1048" y2="352" stroke="#e65100" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#fEvt)"/>
+  <text x="1055" y="456" font-size="11.5" fill="#e65100">consume</text>
+
+  <!-- Leyenda -->
+  <g font-size="12" fill="#37474f">
+    <line x1="30" y1="590" x2="70" y2="590" stroke="#37474f" stroke-width="2" marker-end="url(#fHttp)"/>
+    <text x="78" y="594">HTTP vía Gateway</text>
+    <line x1="230" y1="590" x2="270" y2="590" stroke="#1565c0" stroke-width="2" marker-end="url(#fSync)"/>
+    <text x="278" y="594">Síncrona: WebClient + Eureka (timeout 3 s)</text>
+    <line x1="560" y1="590" x2="600" y2="590" stroke="#e65100" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#fEvt)"/>
+    <text x="608" y="594">Asíncrona: evento RabbitMQ</text>
+    <line x1="820" y1="590" x2="860" y2="590" stroke="#6a1b9a" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fEur)"/>
+    <text x="868" y="594">Registro / descubrimiento</text>
+    <text x="30" y="624">Base de datos: un servidor MySQL con una base por servicio, acceso reactivo con Spring Data R2DBC y sin claves foráneas entre bases.</text>
+    <text x="30" y="646">Cada servicio es dueño de sus datos: las referencias (paciente_id, cita_id) se validan por API, nunca leyendo tablas de otro servicio.</text>
+  </g>
+</svg>
