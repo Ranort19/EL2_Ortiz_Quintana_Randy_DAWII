@@ -8,7 +8,7 @@ Segunda Evaluación T2 del curso Desarrollo de Aplicaciones Web II (Cibertec). P
 
 ## Arquitectura
 
-![Arquitectura](docs/diagramas/arquitectura.svg)
+![Arquitectura](docs/diagramas/arquitectura.jpg)
 
 | Servicio | Puerto | Responsabilidad | Base de datos |
 |---|---|---|---|
@@ -97,7 +97,7 @@ Importar [postman/Hospital_Vida_Salud.json](postman/Hospital_Vida_Salud.json) y 
 
 El workflow [.github/workflows/ci.yml](.github/workflows/ci.yml) se ejecuta en cada push y pull request hacia `main`. Usa una matriz con un job por proyecto (8 jobs): configura Java 21 con caché de Maven y ejecuta `./mvnw --batch-mode verify`. Si la compilación o una prueba falla, el job queda en rojo.
 
-![Integración continua](docs/diagramas/ci.svg)
+![Integración continua](docs/diagramas/ci.jpg)
 
 ## Estructura del repositorio
 
@@ -108,7 +108,7 @@ gateway/                   Spring Cloud Gateway
 pacientes/ citas/ atenciones/ notificaciones/ auditoria/ pagos/
 script/hospital.sql        Bases de datos y tablas
 postman/                   Colección de pruebas funcionales
-docs/                      Documento técnico, diagramas y guía de evidencias
+docs/                      Documento técnico, diagramas y lista de evidencias
 ```
 
 Cada microservicio sigue la estructura del primer examen: `bean/entity`, `bean/dto`, `controller`, `model`, `repository`, `configuration`, `usecase` y `component`.
@@ -116,7 +116,7 @@ Cada microservicio sigue la estructura del primer examen: `bean/entity`, `bean/d
 ## Documentación
 
 - [Documento técnico](docs/documento-tecnico.md)
-- [Guía de evidencias](docs/evidencias.md)
+- [Lista de evidencias](docs/evidencias.md)
 - [Diagramas](docs/diagramas)
 
 **Autor:** Ortiz Quintana, Randy · Curso 4698 Desarrollo de Aplicaciones Web II · Profesor Zambrano Macedo, Yuri Renzo

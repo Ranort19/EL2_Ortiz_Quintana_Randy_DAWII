@@ -1,66 +1,16 @@
-# Guía de evidencias (§29 C)
+# Evidencias (§29 C)
 
-Lista de capturas que pide el examen, dónde tomarlas y qué debe verse en cada una. Guardar las imágenes en `docs/evidencias/` con el nombre indicado.
+Las capturas de funcionamiento se incluyen en el **Anexo: Evidencias** de la versión Word del documento técnico (`docs/Documento_Tecnico_Hospital_Vida_Salud.docx`). Esta lista indica qué muestra cada evidencia y qué requisito del examen cubre.
 
-Estado: **Lista** = la ejecución ya existe y solo falta la captura · **Pendiente** = hay que ejecutar el sistema completo (MySQL y RabbitMQ) y capturar.
-
-## 1. Eureka y Gateway
-
-| Archivo | Qué capturar | Qué debe verse | Estado |
+| Anexo | Evidencia | Qué muestra | Requisito |
 |---|---|---|---|
-| 01-eureka.png | http://localhost:8761 con todo arrancado | 7 instancias: GATEWAY, PACIENTES, CITAS, ATENCIONES, NOTIFICACIONES, AUDITORIA, PAGOS | Pendiente |
-| 02-gateway.png | Postman: `GET http://localhost:8080/api/pacientes/1` | Respuesta 200 obtenida a través del puerto 8080 | Pendiente |
+| A.1 | Eureka con los servicios registrados | Panel http://localhost:8761 con GATEWAY, PACIENTES, CITAS, ATENCIONES, NOTIFICACIONES, AUDITORIA y PAGOS | §18 |
+| A.2 | Enrutamiento por el Gateway | Peticiones a `http://localhost:8080/api/...` respondidas por cada servicio | §17 |
+| A.3 | Endpoints y reglas de negocio | Registro y consulta de paciente, rechazo de duplicado (409), registro de cita, validación síncrona del paciente, transición no permitida (409), atención y pago con monto inválido (400) | §28 |
+| A.4 | Persistencia SQL con R2DBC | Datos guardados en `bd_citas`, `bd_auditoria` y demás bases después de ejecutar la colección | §21 |
+| A.5 | RabbitMQ | Colas `NOTIFICACIONES_COLA` y `AUDITORIA_COLA` con su consumidor, publicación en citas y consumo en notificaciones y auditoria | §20 |
+| A.6 | Pruebas automatizadas | `mvnw verify` con las pruebas en verde | §24 |
+| A.7 | GitHub Actions: ejecución exitosa | [Run 38103043089](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103043089) con los 8 jobs en verde | §25 |
+| A.8 | Fallo controlado y corrección | PR #1: [run 38103389478](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103389478) en rojo (`RechazarDocumentoDuplicado`), [run 38103506117](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103506117) en verde tras la corrección y [run 38103640315](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103640315) del merge en main | §25.3 |
 
-## 2. Endpoints y reglas de negocio (colección Postman)
-
-| Archivo | Petición de la colección | Respuesta esperada | Estado |
-|---|---|---|---|
-| 03-paciente-registrado.png | 1 · Registrar paciente 1 | 201 | Pendiente |
-| 04-paciente-duplicado.png | 1 · ERROR - Paciente duplicado | 409 | Pendiente |
-| 05-paciente-por-id.png | 2 · Buscar paciente por id | 200 | Pendiente |
-| 06-cita-registrada.png | 3 · Registrar cita 1 | 201, estado PENDIENTE | Pendiente |
-| 07-sincrona-paciente-inexistente.png | 3 · ERROR - Paciente inexistente | 400 "El paciente 999 no existe" (respuesta de WebClient) | Pendiente |
-| 08-cita-confirmada.png | 4 · Confirmar cita 1 | 200, estado CONFIRMADA | Pendiente |
-| 09-transicion-no-permitida.png | 4 · ERROR - Confirmar cita cancelada | 409 | Pendiente |
-| 10-atencion-registrada.png | 5 · Registrar atención de la cita 1 | 201, estado REGISTRADA | Pendiente |
-| 11-pago-monto-invalido.png | 6 · ERROR - Monto cero | 400 | Pendiente |
-| 12-runner-postman.png | Collection Runner con toda la colección | Las 48 peticiones con sus códigos | Pendiente |
-
-## 3. RabbitMQ: evento publicado y consumido
-
-| Archivo | Qué capturar | Qué debe verse | Estado |
-|---|---|---|---|
-| 13-rabbitmq-colas.png | http://localhost:15672 → Queues | NOTIFICACIONES_COLA y AUDITORIA_COLA con 1 consumidor cada una | Pendiente |
-| 14-rabbitmq-exchange.png | Exchanges → HOSPITAL_INTERCAMBIO → Bindings | Las 2 colas enlazadas con CITA_KEY | Pendiente |
-| 15-consola-citas.png | Consola de citas al confirmar | `Envio: CitaEventoDto(evento=CitaConfirmada, ...)` | Pendiente |
-| 16-consola-notificaciones.png | Consola de notificaciones | `Notificacion enviada al paciente: [CitaConfirmada] ...` | Pendiente |
-| 17-notificaciones-api.png | 7 · Ver notificaciones recibidas | Lista de avisos | Pendiente |
-| 18-auditoria-api.png | 7 · Historial de la cita 1 | CitaRegistrada → CitaConfirmada → CitaAtendida | Pendiente |
-
-## 4. Persistencia SQL con R2DBC
-
-| Archivo | Qué capturar | Estado |
-|---|---|---|
-| 19-mysql-citas.png | `SELECT * FROM bd_citas.cita;` después de ejecutar la colección | Pendiente |
-| 20-mysql-auditoria.png | `SELECT * FROM bd_auditoria.auditoria;` | Pendiente |
-
-## 5. Pruebas automatizadas
-
-| Archivo | Qué capturar | Estado |
-|---|---|---|
-| 21-pruebas-locales.png | En `pacientes`: `mvnw.cmd verify` con `Tests run: 6, Failures: 0` y `BUILD SUCCESS` | Pendiente (ya verificado al desarrollar; falta la captura en tu equipo) |
-
-## 6. GitHub Actions
-
-| Archivo | Qué capturar | Estado |
-|---|---|---|
-| 22-ci-verde.png | [Run 38103043089](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103043089): los 8 jobs en verde | Lista |
-| 23-ci-log-pacientes.png | Log de build-test (pacientes) de esa ejecución: `Tests run: 6` y `BUILD SUCCESS` | Lista |
-| 24-ci-fallo-pr.png | PR #1 con "1 failing, 7 successful checks" | Lista (ya tomada) |
-| 25-ci-fallo-log.png | [Run 38103389478](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103389478), job build-test (pacientes): `Status expected:<409 CONFLICT> but was:<400 BAD_REQUEST>` y `BUILD FAILURE` | Lista |
-| 26-ci-correccion.png | PR #1 con "All checks have passed" y los commits 68bba09 (✗) y a5e0fd2 (✓) | Lista (ya tomada) |
-| 27-ci-merge-main.png | [Run 38103640315](https://github.com/Ranort19/EL2_Ortiz_Quintana_Randy_DAWII/actions/runs/38103640315): merge en main en verde | Lista |
-
-## 7. Diagramas
-
-Ya están en `docs/diagramas/` y dentro del documento técnico: arquitectura, comunicación del flujo funcional, estados y CI.
+Los diagramas de arquitectura y del flujo funcional están en `docs/diagramas/` y en la sección 4 del documento técnico.

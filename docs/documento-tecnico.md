@@ -106,15 +106,15 @@ Eventos publicados por citas: **CitaRegistrada, CitaConfirmada, CitaReprogramada
 
 ### 4.1 Diagrama de arquitectura
 
-![Diagrama de arquitectura](diagramas/arquitectura.svg)
+![Diagrama de arquitectura](diagramas/arquitectura.jpg)
 
 ### 4.2 Diagrama de comunicación del flujo funcional
 
-![Diagrama de comunicación](diagramas/comunicacion.svg)
+![Diagrama de comunicación](diagramas/comunicacion.jpg)
 
 ### 4.3 Estados y transiciones
 
-![Diagrama de estados](diagramas/estados.svg)
+![Diagrama de estados](diagramas/estados.jpg)
 
 ## 5. Diseño de datos
 
@@ -140,9 +140,9 @@ Todas las rutas externas pasan por el gateway con el prefijo `/api`, por ejemplo
 
 | Llamada | Contrato | Error del destino → respuesta | Tiempo de espera | Indisponibilidad |
 |---|---|---|---|---|
-| citas → pacientes | `GET http://pacientes/pacientes/{id}` → PacienteDto (id, documento, nombres, estado) | 4xx → 400 "El paciente no existe" | 3 s | 503 "El servicio de pacientes no esta disponible" |
+| citas → pacientes | `GET http://pacientes/pacientes/{id}` → PacienteDto (id, tipoDocumento, numeroDocumento, nombres, apellidos, estado) | 4xx → 400 "El paciente no existe" | 3 s | 503 "El servicio de pacientes no esta disponible" |
 | pagos → pacientes | Igual al anterior | 4xx → 400 | 3 s | 503 |
-| atenciones → citas | `GET http://citas/citas/{id}` → CitaDto (id, codigo, pacienteId, fechaHora, estado) | 4xx → 400 "La cita no existe" | 3 s | 503 "El servicio de citas no esta disponible" |
+| atenciones → citas | `GET http://citas/citas/{id}` → CitaDto (id, codigo, pacienteId, especialidad, fechaHora, estado) | 4xx → 400 "La cita no existe" | 3 s | 503 "El servicio de citas no esta disponible" |
 | atenciones → citas | `PUT http://citas/citas/{id}/estado` con `{"estado":"ATENDIDA"}` | 4xx → 409 | 3 s | 503 |
 
 "Indisponibilidad" cubre: sin instancias registradas en Eureka, tiempo de espera agotado o error 5xx del destino. En todos los casos el error se transforma en una respuesta HTTP clara, sin datos parciales.
@@ -242,7 +242,7 @@ Además, PacienteControllerTest prueba datos inválidos, consulta por id y actua
 
 ## 11. Integración continua
 
-![Flujo de integración continua](diagramas/ci.svg)
+![Flujo de integración continua](diagramas/ci.jpg)
 
 El workflow `.github/workflows/ci.yml` se ejecuta en cada push a `main` y en cada pull request hacia `main`. El repositorio tiene ocho proyectos Maven independientes, por eso se usa una **matriz** con un job por proyecto. Cada job realiza los pasos del ejemplo del §25.4:
 
@@ -266,7 +266,7 @@ Con `fail-fast: false`, si un proyecto falla los demás terminan igual y se ve e
 
 ## 12. Seguridad y datos de prueba
 
-- Todos los datos son ficticios: documentos 9000000x, correos `@correo.test`, motivos administrativos sin información clínica.
+- Todos los datos son ficticios: documentos inventados (DNI 90000001, CE 900000002, pasaporte PX0000003), correos `@correo.test` y motivos administrativos sin información clínica.
 - No hay contraseñas en el repositorio: se usan las variables de entorno `DB_USERNAME`, `DB_PASSWORD`, `RABBITMQ_USERNAME` y `RABBITMQ_PASSWORD`.
 - Los mensajes de notificación y los logs solo contienen identificadores, no nombres ni documentos.
 - El `.gitignore` excluye `target/`, logs y archivos `.env`.
@@ -287,3 +287,23 @@ Con `fail-fast: false`, si un proyecto falla los demás terminan igual y se ve e
 - Si auditoría no puede guardar un evento, el error queda en el log y ese registro se pierde.
 - Las notificaciones se guardan en memoria y se pierden al reiniciar el servicio.
 - No se implementó autenticación en el gateway.
+
+## Anexo: Evidencias
+
+Capturas de funcionamiento solicitadas en el §29 C. Se incluyen en la versión Word de este documento.
+
+### A.1 Eureka con los servicios registrados
+
+### A.2 Enrutamiento por el Gateway
+
+### A.3 Endpoints y reglas de negocio
+
+### A.4 Persistencia SQL con R2DBC
+
+### A.5 RabbitMQ: evento publicado y consumido
+
+### A.6 Pruebas automatizadas ejecutadas
+
+### A.7 GitHub Actions: ejecución exitosa
+
+### A.8 Fallo controlado y su corrección
